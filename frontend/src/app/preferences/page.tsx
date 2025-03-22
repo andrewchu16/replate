@@ -198,16 +198,23 @@ export default function UserPreferences() {
 
           <div className="mb-8">
             <div className="flex justify-between items-center mb-4">
-              <h1 className="text-2xl font-bold">Your Preferences</h1>
-              <div className="text-sm text-gray-500">
-                Step {step} of {NUM_STEPS}
+              <div className="w-8" />
+              <div className="flex items-center space-x-1">
+                {Array(5).fill(0).map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                      i + 1 === step ? 'bg-green-500' : 'bg-gray-200'
+                    }`}
+                  />
+                ))}
               </div>
-            </div>
-            <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
-              <div
-                className="bg-green-500 h-2 rounded-full transition-all duration-500 ease-in-out"
-                style={{ width: `${((step - 1) / (NUM_STEPS - 1)) * 100}%` }}
-              />
+              <button
+                onClick={() => router.push('/')}
+                className="text-blue-500 text-sm"
+              >
+                Cancel
+              </button>
             </div>
           </div>
 

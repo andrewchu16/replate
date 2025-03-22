@@ -6,6 +6,8 @@ export async function POST(request: Request) {
     try {
         const preferences: Preferences = await request.json();
 
+        console.log(preferences);
+
         // Validate required fields
         if (!preferences.mealDescription) {
             return NextResponse.json(
