@@ -1,4 +1,4 @@
-import type Preferences from '../../models/preferences.model';
+import type Preferences from '../../../models/preferences.model';
 
 interface StepProps {
     preferences: Partial<Preferences>;
