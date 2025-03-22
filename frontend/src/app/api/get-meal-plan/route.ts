@@ -1,12 +1,9 @@
 import { NextResponse } from 'next/server';
 import type Preferences from '../../../models/preferences.model';
-import type MealItem from '../../../models/mealItem.model';
 
 export async function POST(request: Request) {
     try {
         const preferences: Preferences = await request.json();
-
-        console.log(preferences);
 
         // Validate required fields
         if (!preferences.mealDescription) {
@@ -30,48 +27,34 @@ export async function POST(request: Request) {
             );
         }
 
-        // Simulate processing delay
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        const domain = process.env.MEAL_SERVICE_DOMAIN;
+        const port = process.env.MEAL_SERVICE_PORT;
 
-        // Dummy meal items
-        const dummyMealItems: MealItem[] = [
-            {
-                name: "Spicy Ramen Bowl",
-                price: 12.99,
-                longitude: preferences.longitude + 0.01,
-                latitude: preferences.latitude - 0.01,
-                rating: 4.5,
-                storeName: "Noodle House",
-                imgUrl: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624",
-                distance: 1.2
-            },
-            {
-                name: "Vegetarian Buddha Bowl",
-                price: 14.99,
-                longitude: preferences.longitude - 0.02,
-                latitude: preferences.latitude + 0.02,
-                rating: 4.8,
-                storeName: "Green Eats",
-                imgUrl: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
-                distance: 2.1
-            },
-            {
-                name: "Grilled Salmon Plate",
-                price: 18.99,
-                longitude: preferences.longitude + 0.03,
-                latitude: preferences.latitude + 0.01,
-                rating: 4.6,
-                storeName: "Ocean Fresh",
-                imgUrl: "https://images.unsplash.com/photo-1467003909585-2f8a72700288",
-                distance: 0.8
-            }
-        ];
+        if (!domain || !port) {
+            throw new Error('Meal service configuration is missing');
+        }
 
-        // Return success response with dummy data
+        const response = await fetch(`${domain}:${port}/api/get-meal-plan`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(preferences),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            return NextResponse.json(
+                { message: errorData.message || 'Failed to get meal plan' },
+                { status: response.status }
+            );
+        }
+
+        const data = await response.json();
         return NextResponse.json(
             { 
                 status: 'Meal plan created successfully',
-                mealPlan: dummyMealItems
+                mealPlan: data.mealPlan
             },
             { status: 200 }
         );
