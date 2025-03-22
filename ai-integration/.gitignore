@@ -33,4 +33,3 @@ dist/
 build/
 *.egg-info/
 
-testData.py

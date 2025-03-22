@@ -6,3 +6,4 @@ dotenv
 re
 cohere
 google-genai
+Flask 
