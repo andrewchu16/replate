@@ -30,11 +30,16 @@ app.post('/api/get-meal-plan', async (req, res) => {
   const userPreferences = req.body; 
   console.log(userPreferences);
   try {
-    const mealPlanUrl = 'http://localhost:3000/api/mealplan/';
-    const response = await axios.get(mealPlanUrl, { params: userPreferences });
+    const mealPlanUrl = 'http://localhost:5000/api/mealplan';
+    const response = await axios.post(mealPlanUrl, { params: userPreferences });
     const mealPlan = response.data;
 
-    res.json(mealPlan);
+    console.log("mealPlan: ", mealPlan);
+
+    res.json({
+      status: 'Meal plan created successfully',
+      mealPlan: mealPlan
+    });
   } catch (error) {
     console.error('Error fetching meal plan:', error.message);
     res.status(500).json({ code: 'MEAL_PLAN_ERROR', message: 'Failed to fetch meal plan' });

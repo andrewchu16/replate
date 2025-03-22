@@ -25,20 +25,22 @@ export default interface Preferences {
 
 app = Flask(__name__)
 
-@app.route("/getAiResponse", methods=["GET", "POST"])
+@app.route("/api/mealplan", methods=["GET", "POST"])
 def getAiResponse():
     # Available prompts: I want:
     # top 3 cheapest places to eat
     # top 3 nearest places to eat
     # top 3 chinese/italian/indian places to eat
     if request.method == "POST":
-        data = request.get_json()
-        prompt = data.get("prompt", "No prompt provided")
-        preferences = data.get("preferences", "No preferences provided")
+        preferences = request.get_json().get("params")
     else:
         preferences = request.args.get("preferences", "No preferences provided")
 
+    prompt = preferences.get("mealDescription", "No prompt provided")
     preferencesStr = json.dumps(preferences)
+    
+    print("prompt: ", prompt)
+    print("preferences: ", preferencesStr)
     
     response = menuGen.main(prompt=prompt, preferences=preferencesStr)
     return response

@@ -27,8 +27,6 @@ export async function POST(request: Request) {
             );
         }
 
-        delete preferences.mealDescription;
-
         const domain = process.env.MEAL_SERVICE_DOMAIN;
         const port = process.env.MEAL_SERVICE_PORT;
 
@@ -44,6 +42,7 @@ export async function POST(request: Request) {
             body: JSON.stringify(preferences),
         });
 
+
         if (!response.ok) {
             const errorData = await response.json();
             return NextResponse.json(
@@ -51,8 +50,9 @@ export async function POST(request: Request) {
                 { status: response.status }
             );
         }
-
+        
         const data = await response.json();
+        console.log("data: ", data);
         return NextResponse.json(
             { 
                 status: 'Meal plan created successfully',
