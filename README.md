@@ -1,3 +1,3 @@
 # replate
 
-copy `.env.template` to `.env`
+This is replate.
