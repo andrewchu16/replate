@@ -102,4 +102,4 @@ def main(prompt,preferences) -> str:
         
             
 if __name__ == "__main__":
-    main(prompt=prompt,preferences=preferences)
+    main(prompt="",preferences="")
