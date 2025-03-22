@@ -27,6 +27,8 @@ export async function POST(request: Request) {
             );
         }
 
+        delete preferences.mealDescription;
+
         const domain = process.env.MEAL_SERVICE_DOMAIN;
         const port = process.env.MEAL_SERVICE_PORT;
 

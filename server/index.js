@@ -28,6 +28,7 @@ io.on('connection', (socket) => {
 // Define routes
 app.post('/api/get-meal-plan', async (req, res) => {
   const userPreferences = req.body; 
+  console.log(userPreferences);
   try {
     const mealPlanUrl = 'http://localhost:3000/api/mealplan/';
     const response = await axios.get(mealPlanUrl, { params: userPreferences });
