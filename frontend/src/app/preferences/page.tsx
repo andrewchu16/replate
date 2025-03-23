@@ -4,7 +4,8 @@ import type Preferences from "../../models/preferences.model";
 import DietaryRestrictionsStep from "./components/DietaryRestrictionsStep";
 import AllergiesStep from "./components/AllergiesStep";
 import CuisinePreferencesStep from "./components/CuisinePreferencesStep";
-import BudgetDistanceStep from "./components/BudgetDistanceStep";
+import BudgetStep from "./components/BudgetStep";
+import DistanceStep from "./components/DistanceStep";
 import StepTransition from "./components/StepTransition";
 import MealDescriptionStep from "./components/MealDescriptionStep";
 import { useRouter } from "next/navigation";
@@ -20,7 +21,7 @@ export default function UserPreferences() {
     cuisine: [],
     dietaryRestrictions: [],
     budget: 0,
-    maxDistance: 5,
+    maxDistance: 1,
     mealDescription: "",
     latitude: 0,
     longitude: 0,
@@ -65,13 +66,22 @@ export default function UserPreferences() {
       case 4:
         return (
           <StepTransition>
-            <BudgetDistanceStep
+            <BudgetStep
               preferences={preferences}
               updatePreferences={updatePreferences}
             />
           </StepTransition>
         );
       case 5:
+        return (
+          <StepTransition>
+            <DistanceStep
+              preferences={preferences}
+              updatePreferences={updatePreferences}
+            />
+          </StepTransition>
+        );
+      case 6:
         return (
           <StepTransition>
             <MealDescriptionStep
@@ -140,15 +150,17 @@ export default function UserPreferences() {
       case 3:
         return preferences.cuisine.length > 0;
       case 4:
-        return preferences.budget > 0 && preferences.maxDistance > 0;
+        return preferences.budget > 0;
       case 5:
+        return preferences.maxDistance > 0;
+      case 6:
         return preferences.mealDescription.trim().length > 0;
       default:
         return false;
     }
   };
 
-  const NUM_STEPS = 5;
+  const NUM_STEPS = 6;
 
   if (isLoading) {
     return (
@@ -186,7 +198,7 @@ export default function UserPreferences() {
             <div className="flex justify-between items-center container mx-auto">
               <div className="w-24" />
               <div className="flex items-center space-x-2 flex-grow justify-center">
-                {Array(5)
+                {Array(6)
                   .fill(0)
                   .map((_, i) => (
                     <div
