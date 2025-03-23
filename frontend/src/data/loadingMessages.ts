@@ -1,0 +1,26 @@
+const loadingMessages = [
+  "Marinating ideas for your perfect meal...",
+  "Cooking up the best restaurant picks...",
+  "Simmering through endless options...",
+  "Tasting every menu item... virtually!",
+  "Whisking together the ultimate meal plan...",
+  "Seasoning your choices with a dash of magic...",
+  "Our AI chef is plating up your selections...",
+  "Giving your cravings the Michelin treatment...",
+  "Letting the algorithm take a bite...",
+  "Crunching data... and maybe some fries...",
+  "Calibrating taste preferences... Yum!",
+  "Deploying the flavor neural network...",
+  "Optimizing your meal for maximum deliciousness...",
+  "Fetching the tastiest bytes...",
+  "Our food engine is firing on all cylinders...",
+  "We’d be done by now, but we’re busy drooling...",
+  "Deciding between ‘healthy’ and ‘cheat day’...",
+  "Bribing the algorithm with extra fries...",
+  "Running a deep-dish analysis...",
+  "Finding that perfect balance between ‘yum’ and ‘wallet-friendly’...",
+  "Consulting the food gods...",
+  "Debating pineapple on pizza...",
+];
+
+export default loadingMessages;
