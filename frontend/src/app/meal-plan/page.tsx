@@ -1,9 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import type MealItem from '../../models/mealItem.model';
 
 export default function MealPlan() {
+    const router = useRouter();
     const [mealPlan, setMealPlan] = useState<MealItem[]>([]);
     const [error, setError] = useState<string | null>(null);
 
@@ -23,6 +25,8 @@ export default function MealPlan() {
             setError('Failed to load meal plan. Please try again.');
         }
     }, []);
+
+    const totalCost = mealPlan.reduce((sum, meal) => sum + meal.price, 0);
 
     if (error) {
         return (
@@ -44,11 +48,38 @@ export default function MealPlan() {
         );
     }
 
+    const handleOrder = async () => {
+        try {
+            const response = await fetch('/api/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ meals: mealPlan }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to place order');
+            }
+
+            localStorage.setItem('orderedMealPlan', JSON.stringify(mealPlan));
+            router.push('/delivery-status');
+        } catch (error) {
+            setError('Failed to place order. Please try again.');
+        }
+    };
+
     return (
         <div className="min-h-screen bg-white p-4">
-            <div className="max-w-4xl mx-auto">
-                <h1 className="text-2xl font-bold mb-6">Your Meal Plan</h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="max-w-4xl mx-auto pb-24">
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-2xl font-bold">Your Meal Plan</h1>
+                    <div className="text-lg font-semibold text-gray-700">
+                        Total: ${totalCost.toFixed(2)}
+                    </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                     {mealPlan.map((meal, index) => (
                         <div 
                             key={index}
@@ -77,6 +108,20 @@ export default function MealPlan() {
                             </div>
                         </div>
                     ))}
+                </div>
+            </div>
+
+            <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t shadow-lg">
+                <div className="max-w-4xl mx-auto flex justify-between items-center">
+                    <div className="text-lg font-semibold">
+                        Total Cost: ${totalCost.toFixed(2)}
+                    </div>
+                    <button
+                        onClick={handleOrder}
+                        className="px-8 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-colors duration-200"
+                    >
+                        Order Now
+                    </button>
                 </div>
             </div>
         </div>

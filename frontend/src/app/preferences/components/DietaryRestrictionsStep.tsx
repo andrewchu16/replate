@@ -49,13 +49,14 @@ export default function DietaryRestrictionsStep({ preferences, updatePreferences
     return (
         <div className="space-y-6">
             <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
-                    <span className="text-2xl">🥗</span>
-                </div>
-                <h2 className="text-xl font-semibold">Dietary Restrictions</h2>
-                <p className="text-sm text-gray-600 mt-2">
-                    Select any dietary restrictions you follow
+                
+                <h2 className="text-6xl font-crazy w-auto">Dietary Restrictions</h2>
+                <p className="text-xl font-nunito text-black mt-2 p-4">
+                    Select dietary restrictions
                 </p>
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center">
+                    <span className="text-6xl">🥗</span>
+                </div>
             </div>
 
             <div className="relative">
@@ -64,7 +65,7 @@ export default function DietaryRestrictionsStep({ preferences, updatePreferences
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search restrictions..."
-                    className="w-full p-3 pl-10 rounded-lg border border-gray-200 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full p-3 pl-10 rounded-lg border-4 border-[#aedab2] focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                     🔍
@@ -80,7 +81,7 @@ export default function DietaryRestrictionsStep({ preferences, updatePreferences
             </div>
 
             <div>
-                <h3 className="text-lg font-medium mb-3">Restrictions</h3>
+                <h3 className="text-2xl font-nunito mb-3">Restrictions</h3>
                 <div className="space-y-4">
                     <div className="grid grid-cols-4 gap-4">
                         {filteredOptions.map((option) => (
@@ -100,12 +101,12 @@ export default function DietaryRestrictionsStep({ preferences, updatePreferences
                                 }}
                                 className={`flex flex-col items-center p-3 rounded-lg transition-all duration-200
                                     ${preferences.dietaryRestrictions?.includes(option.id)
-                                        ? 'bg-green-50 text-green-600'
+                                        ? 'bg-[#aedab2] text-black'
                                         : 'bg-gray-50 hover:bg-gray-100'
                                     }`}
                             >
-                                <span className="text-2xl mb-1">{option.icon}</span>
-                                <span className="text-xs font-medium">{option.label}</span>
+                                <span className="text-4xl mb-1">{option.icon}</span>
+                                <span className="text-sm font-nunito">{option.label}</span>
                             </button>
                         ))}
                         
@@ -122,7 +123,7 @@ export default function DietaryRestrictionsStep({ preferences, updatePreferences
                                 className="flex flex-col items-center p-3 rounded-lg bg-green-50 text-green-600"
                             >
                                 <span className="text-2xl mb-1">✨</span>
-                                <span className="text-xs font-medium">{restriction.toUpperCase()}</span>
+                                <span className="text-xs font-nunito">{restriction.toUpperCase()}</span>
                             </button>
                         ))}
 
@@ -136,7 +137,7 @@ export default function DietaryRestrictionsStep({ preferences, updatePreferences
                                 }`}
                         >
                             <span className="text-2xl mb-1">➕</span>
-                            <span className="text-xs font-medium">OTHER</span>
+                            <span className="text-xs font-nunito">OTHER</span>
                         </button>
 
                         {/* No results message */}
@@ -155,7 +156,7 @@ export default function DietaryRestrictionsStep({ preferences, updatePreferences
                                 value={otherValue}
                                 onChange={(e) => setOtherValue(e.target.value)}
                                 placeholder="Add other dietary restriction..."
-                                className="flex-1 p-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                className="w-full p-3 pl-10 rounded-lg border-4 border-[#aedab2] focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                 autoFocus
                             />
                             <button

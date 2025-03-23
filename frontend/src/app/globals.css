@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "nunito";
+  src: url('./assets/fonts/Nunito-VariableFont_wght.ttf');
+}
+
+@font-face {
+  font-family: "crazy";
+  src: url('./assets/fonts/Holysweet-rgn4K.otf');
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -27,4 +37,15 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@layer {
+  .font-nunito {
+      font-family: "nunito";
+      @apply font-bold
+  }
+
+  .font-crazy {
+      font-family: "crazy";
+  }
 }
