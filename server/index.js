@@ -118,15 +118,15 @@ app.post('/api/order', (req, res) => {
         }
       });
     }    else { 
-      // Out for Delivery: 8-13 seconds
-      const deliveryTime = 8000 + Math.floor(Math.random() * 5000);
+      // Out for Delivery: 11-15 seconds
+      const deliveryTime = 11000 + Math.floor(Math.random() * 5000);
       setTimeout(() => {
         io.emit(channel, { ...orderUpdate, status: 'Out for Delivery' });
         // sendSMSMessage(Meal ${mealItem.name || index} is Out for Delivery);
       }, deliveryTime);
     }
-    // Delivered: 14-20 seconds
-    const completionTime = 14000 + Math.floor(Math.random() * 6000);
+    // Delivered: 20-26 seconds
+    const completionTime = 20000 + Math.floor(Math.random() * 6000);
     setTimeout(() => {
       io.emit(channel, { ...orderUpdate, status: 'Delivered' });
       sendSMSMessage(`Meal ${mealItem.name || index} is Delivered`);
