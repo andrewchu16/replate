@@ -133,26 +133,11 @@ export default function UserPreferences() {
   const isStepValid = () => {
     switch (step) {
       case 1:
-        return (
-          preferences.dietaryRestrictions.length > 0 &&
-          !preferences.dietaryRestrictions.some(
-            (d) => d.startsWith("other:") && d === "other:"
-          )
-        );
+        return preferences.dietaryRestrictions.length > 0;
       case 2:
-        return (
-          preferences.allergies.length > 0 &&
-          !preferences.allergies.some(
-            (a) => a.startsWith("other:") && a === "other:"
-          )
-        );
+        return preferences.allergies.length > 0;
       case 3:
-        return (
-          preferences.cuisine.length > 0 &&
-          !preferences.cuisine.some(
-            (c) => c.startsWith("other:") && c === "other:"
-          )
-        );
+        return preferences.cuisine.length > 0;
       case 4:
         return preferences.budget > 0 && preferences.maxDistance > 0;
       case 5:

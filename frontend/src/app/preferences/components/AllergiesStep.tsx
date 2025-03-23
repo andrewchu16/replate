@@ -11,6 +11,7 @@ export default function AllergiesStep({ preferences, updatePreferences }: StepPr
     const [otherValue, setOtherValue] = useState('');
     const [showOtherInput, setShowOtherInput] = useState(false);
     const allergyOptions = [
+        { id: 'none', icon: '❌', label: 'NONE' },
         { id: 'peanuts', icon: '🥜', label: 'PEANUTS' },
         { id: 'tree-nuts', icon: '🌰', label: 'TREE NUTS' },
         { id: 'dairy', icon: '🥛', label: 'DAIRY' },
@@ -20,7 +21,6 @@ export default function AllergiesStep({ preferences, updatePreferences }: StepPr
         { id: 'fish', icon: '🐟', label: 'FISH' },
         { id: 'shellfish', icon: '🦐', label: 'SHELLFISH' },
         { id: 'sesame', icon: '🫘', label: 'SESAME' },
-        { id: 'celery', icon: '🥬', label: 'CELERY' },
         { id: 'sulfites', icon: '🧂', label: 'SULFITES' },
     ];
 
@@ -88,10 +88,15 @@ export default function AllergiesStep({ preferences, updatePreferences }: StepPr
                                 key={option.id}
                                 onClick={() => {
                                     const current = preferences.allergies || [];
-                                    const updated = current.includes(option.id)
-                                        ? current.filter(a => a !== option.id)
-                                        : [...current, option.id];
-                                    updatePreferences('allergies', updated);
+                                    if (option.id === 'none') {
+                                        updatePreferences('allergies', ['none']);
+                                    } else {
+                                        const withoutNone = current.filter(a => a !== 'none');
+                                        const updated = withoutNone.includes(option.id)
+                                            ? withoutNone.filter(a => a !== option.id)
+                                            : [...withoutNone, option.id];
+                                        updatePreferences('allergies', updated);
+                                    }
                                 }}
                                 className={`flex flex-col items-center p-3 rounded-lg transition-all duration-200
                                     ${preferences.allergies?.includes(option.id)
