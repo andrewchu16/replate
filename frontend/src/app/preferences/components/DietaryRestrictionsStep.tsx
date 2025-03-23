@@ -99,14 +99,17 @@ export default function DietaryRestrictionsStep({ preferences, updatePreferences
                                         updatePreferences('dietaryRestrictions', updated);
                                     }
                                 }}
-                                className={`flex flex-col items-center p-3 rounded-lg transition-all duration-200
+                                className={`flex flex-col items-center p-3 rounded-lg transition-all duration-200 min-h-[100px]
                                     ${preferences.dietaryRestrictions?.includes(option.id)
                                         ? 'bg-[#aedab2] text-black'
                                         : 'bg-gray-50 hover:bg-gray-100'
                                     }`}
                             >
-                                <span className="text-4xl mb-1">{option.icon}</span>
-                                <span className="text-sm font-nunito">{option.label}</span>
+                                <span className="text-4xl mb-2">{option.icon}</span>
+                                <span className="text-sm font-nunito text-center w-full break-words hyphens-auto" 
+                                      style={{ wordBreak: 'break-word', hyphens: 'auto' }}>
+                                    {option.label}
+                                </span>
                             </button>
                         ))}
                         
@@ -120,24 +123,30 @@ export default function DietaryRestrictionsStep({ preferences, updatePreferences
                                         current.filter(d => d !== `other:${restriction}`)
                                     );
                                 }}
-                                className="flex flex-col items-center p-3 rounded-lg bg-green-50 text-green-600"
+                                className="flex flex-col items-center p-3 rounded-lg bg-green-50 text-green-600 min-h-[100px]"
                             >
-                                <span className="text-2xl mb-1">✨</span>
-                                <span className="text-xs font-nunito">{restriction.toUpperCase()}</span>
+                                <span className="text-2xl mb-2">✨</span>
+                                <span className="text-xs font-nunito text-center w-full break-words hyphens-auto" 
+                                      style={{ wordBreak: 'break-word', hyphens: 'auto' }}>
+                                    {restriction.toUpperCase()}
+                                </span>
                             </button>
                         ))}
 
                         {/* Other button */}
                         <button
                             onClick={() => setShowOtherInput(!showOtherInput)}
-                            className={`flex flex-col items-center p-3 rounded-lg transition-all duration-200
+                            className={`flex flex-col items-center p-3 rounded-lg transition-all duration-200 min-h-[100px]
                                 ${showOtherInput
-                                    ? 'bg-green-50 text-green-600'
+                                    ? 'bg-[#aedab2] text-black'
                                     : 'bg-gray-50 hover:bg-gray-100'
                                 }`}
                         >
-                            <span className="text-2xl mb-1">➕</span>
-                            <span className="text-xs font-nunito">OTHER</span>
+                            <span className="text-4xl mb-2">➕</span>
+                            <span className="text-sm font-nunito text-center w-full break-words hyphens-auto" 
+                                  style={{ wordBreak: 'break-word', hyphens: 'auto' }}>
+                                OTHER
+                            </span>
                         </button>
 
                         {/* No results message */}

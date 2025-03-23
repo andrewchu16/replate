@@ -14,8 +14,6 @@ interface DeliveryStatus {
     };
 }
 
-const deliveryStages = ['Order Received', 'Preparing', 'Out for Delivery', 'Delivered'];
-
 export default function DeliveryStatus() {
     const [mealPlan, setMealPlan] = useState<MealItem[]>([]);
     const [deliveryStatuses, setDeliveryStatuses] = useState<DeliveryStatus[]>([]);
@@ -54,9 +52,18 @@ export default function DeliveryStatus() {
                 console.error('Socket connection error:', error);
                 setError('Failed to connect to delivery status service.');
             });
+            console.log('====================================');
+            console.log(parsedMealPlan);
+            console.log('====================================');
             parsedMealPlan.forEach((_: unknown, index: number) => {
+                console.log('====================================');    
+                console.log(index);
+                console.log('====================================');
                 const channel = `/ws/delivery-status/${index}`;
                 socket.on(channel, (data: DeliveryStatus) => {
+                    console.log('====================================');
+                    console.log(data);
+                    console.log('====================================');
                     setDeliveryStatuses(prev => {
                         
                         const newStatuses = [...prev];
@@ -77,11 +84,6 @@ export default function DeliveryStatus() {
         }
     }, []);
 
-    const getStageProgress = (status: string) => {
-        const index = deliveryStages.indexOf(status);
-        return Math.max(0, index) / (deliveryStages.length - 1) * 100;
-    };
-
     if (error) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white">
@@ -96,13 +98,13 @@ export default function DeliveryStatus() {
         <div className="min-h-screen bg-white p-4">
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-2xl font-bold mb-6">Delivery Status</h1>
-                <div className="space-y-6">
+                <div className="space-y-4">
                     {mealPlan.map((meal, index) => (
                         <div 
                             key={index}
-                            className="border rounded-lg overflow-hidden shadow-sm p-6"
+                            className="border rounded-lg overflow-hidden shadow-sm p-4"
                         >
-                            <div className="flex gap-4 mb-4">
+                            <div className="flex gap-4">
                                 <div className="relative w-24 h-24 flex-shrink-0">
                                     <Image 
                                         src={meal.imgUrl} 
@@ -114,54 +116,20 @@ export default function DeliveryStatus() {
                                 <div className="flex-1">
                                     <h2 className="font-semibold text-lg">{meal.name}</h2>
                                     <p className="text-gray-600">{meal.storeName}</p>
-                                </div>
-                            </div>
-
-                            {/* Progress Bar Section */}
-                            <div className="space-y-2">
-                                <div className="flex justify-between text-sm text-gray-600">
-                                    {deliveryStages.slice(1).map((stage) => (
-                                        <div 
-                                            key={stage}
-                                            className={`${
-                                                deliveryStatuses[index]?.status === stage 
-                                                    ? 'text-green-600 font-medium' 
-                                                    : ''
-                                            }`}
-                                        >
-                                            {stage}
+                                    <div className="mt-2">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                                            <span className="font-medium">
+                                                {deliveryStatuses[index]?.status || 'Connecting...'}
+                                            </span>
                                         </div>
-                                    ))}
-                                </div>
-                                <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div 
-                                        className="absolute h-full bg-green-500 transition-all duration-500 ease-out rounded-full"
-                                        style={{ 
-                                            width: `${getStageProgress(deliveryStatuses[index]?.status || '')}%`
-                                        }}
-                                    />
-                                    {/* Stage markers */}
-                                    <div className="absolute inset-0 flex justify-between px-[1px]">
-                                        {deliveryStages.slice(1).map((_, i) => (
-                                            <div 
-                                                key={i} 
-                                                className={`w-1 h-full ${
-                                                    getStageProgress(deliveryStatuses[index]?.status || '') >= ((i + 1) / 3) * 100
-                                                        ? 'bg-green-600' 
-                                                        : 'bg-gray-300'
-                                                }`}
-                                            />
-                                        ))}
+                                        {deliveryStatuses[index]?.estimatedTime && (
+                                            <p className="text-sm text-gray-500 mt-1">
+                                                Estimated arrival: {deliveryStatuses[index].estimatedTime}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
-                                <div className="text-sm font-medium text-green-600">
-                                    {deliveryStatuses[index]?.status || 'Connecting...'}
-                                </div>
-                                {deliveryStatuses[index]?.estimatedTime && (
-                                    <p className="text-sm text-gray-500">
-                                        Estimated arrival: {deliveryStatuses[index].estimatedTime}
-                                    </p>
-                                )}
                             </div>
                         </div>
                     ))}

@@ -162,9 +162,9 @@ export default function UserPreferences() {
   }
 
   return (
-    <div className="bg-pattern min-h-screen flex flex-col bg-white">
+    <div className="bg-pattern min-h-screen flex flex-col">
       <div className="flex-1 flex flex-col p-4">
-        <div className="max-w-md w-full mx-auto flex flex-col flex-1">
+        <div className="max-w-md w-full mx-auto flex flex-col flex-1 bg-[#f5fff6] rounded-lg p-6 shadow-sm">
           {error && (
             <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600">
               <p className="text-sm">{error}</p>
@@ -172,7 +172,7 @@ export default function UserPreferences() {
                 onClick={() => {
                   setError(null);
                   if (step === NUM_STEPS) {
-                    handleSubmit(); // Retry submission if on last step
+                    handleSubmit();
                   }
                 }}
                 className="text-sm underline mt-2 text-red-500 hover:text-red-600 transition-colors duration-200"
@@ -183,7 +183,7 @@ export default function UserPreferences() {
           )}
 
           <div className="mb-8">
-            <div className="flex justify-between items-center mb-4 container mx-auto px-4">
+            <div className="flex justify-between items-center container mx-auto">
               <div className="w-24" />
               <div className="flex items-center space-x-2 flex-grow justify-center">
                 {Array(5)
@@ -206,7 +206,6 @@ export default function UserPreferences() {
               </button>
             </div>
           </div>
-
 
           <div className="flex-1 flex flex-col">
             <div className="flex-1 mb-8">{renderStep()}</div>
