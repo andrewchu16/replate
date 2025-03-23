@@ -115,7 +115,7 @@ app.post('/api/order', (req, res) => {
 
     setTimeout(() => {
       io.emit(channel, { ...orderUpdate, status: 'Delivered' });
-      sendSMSMessage(`Meal ${mealItem.name || index} is Delivered`);
+      // sendSMSMessage(`Meal ${mealItem.name || index} is Delivered`);
     }, 15000);
   });
 
