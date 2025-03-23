@@ -308,5 +308,95 @@ restaurants = [
     "storeName": "El Almacen",
     "imgUrl": "https://thetwobananas.com/wp-content/uploads/2022/09/empanadas08.jpg",
     "distance": 1.5
+  },
+  {
+    "name": "Duck Confit",
+    "price": 26.00,
+    "longitude": -79.4006,
+    "latitude": 43.6629,
+    "rating": 4.6,
+    "storeName": "Rasa",
+    "imgUrl": "https://www.recipetineats.com/tachyon/2021/06/Duck-Confit_2-1-copy.jpg",
+    "distance": 0.4
+  },
+  {
+    "name": "Ricotta Gnocchi",
+    "price": 15.00,
+    "longitude": -79.3948,
+    "latitude": 43.6623,
+    "rating": 4.5,
+    "storeName": "Gallery Grill",
+    "imgUrl": "https://www.crunchycreamysweet.com/wp-content/uploads/2021/11/ricotta-gnocchi-2.jpg",
+    "distance": 0.2
+  },
+  {
+    "name": "Fettuccine Alfredo",
+    "price": 22.00,
+    "longitude": -79.3982,
+    "latitude": 43.6675,
+    "rating": 4.7,
+    "storeName": "Trattoria Fieramosca",
+    "imgUrl": "https://assets.bonappetit.com/photos/57e2c3599f19b4610e6b79f6/2:3/w_3332,h_4998,c_limit/fettuccine-alfredo.jpg",
+    "distance": 0.3
+  },
+  {
+    "name": "Vegan Sushi",
+    "price": 18.00,
+    "longitude": -79.3900,
+    "latitude": 43.6700,
+    "rating": 4.5,
+    "storeName": "PLANTA Yorkville",
+    "imgUrl": "https://cdn.foodism.to/gallery_landscape_screen/67784056d26f9.jpg",
+    "distance": 0.6
+  },
+  {
+    "name": "Vegan Breakfast Platter",
+    "price": 12.00,
+    "longitude": -79.3950,
+    "latitude": 43.6550,
+    "rating": 4.6,
+    "storeName": "Karine's",
+    "imgUrl": "https://images.happycow.net/venues/1024/19/39/hcmp19396_367832.jpeg",
+    "distance": 0.3
+  },
+  {
+    "name": "Vegan Buddha Bowl",
+    "price": 10.00,
+    "longitude": -79.4005,
+    "latitude": 43.6610,
+    "rating": 4.4,
+    "storeName": "Fennel Organic Eatery",
+    "imgUrl": "https://wellandfull.com/wp-content/uploads/2016/02/WellandFull-1-23.jpg",
+    "distance": 0.2
+  },
+  {
+    "name": "Vegan Burrito",
+    "price": 11.00,
+    "longitude": -79.4000,
+    "latitude": 43.6590,
+    "rating": 4.2,
+    "storeName": "Fat Bastard Burrito",
+    "imgUrl": "https://rainbowplantlife.com/wp-content/uploads/2021/05/stack-of-vegan-breakfast-burritos-closeup.jpg",
+    "distance": 0.5
+  },
+  {
+    "name": "Gluten-Free Vegan Bowl",
+    "price": 13.00,
+    "longitude": -79.4020,
+    "latitude": 43.6600,
+    "rating": 4.7,
+    "storeName": "Hype Food Co.",
+    "imgUrl": "https://avocadopesto.com/wp-content/uploads/2014/07/veggie-quinoa-bowl-recipe-500x500.jpg",
+    "distance": 0.4
+  },
+  {
+    "name": "Vegan Poutine",
+    "price": 9.00,
+    "longitude": -79.3980,
+    "latitude": 43.6580,
+    "rating": 4.5,
+    "storeName": "Fresh Kitchen & Juice Bar",
+    "imgUrl": "https://www.beetofthewild.com/wp-content/uploads/2019/07/VeganPoutine-Beet-of-the-Wild-MichelleMcCowanPhotography-ALLRIGHTSRESERVED-11.jpg",
+    "distance": 0.3
   }
 ]
