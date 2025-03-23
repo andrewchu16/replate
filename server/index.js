@@ -100,21 +100,31 @@ app.post('/api/order', (req, res) => {
       timestamp: new Date().toISOString()
     };
 
-    // Emit initial order update for this meal item
-    io.emit(channel, orderUpdate);
     const preparingTime = 4000 + Math.floor(Math.random() * 3000);
     setTimeout(() => {
       io.emit(channel, { ...orderUpdate, status: 'Preparing' });
       // sendSMSMessage(Meal ${mealItem.name || index} is Preparing);
     }, preparingTime);
 
-    // Out for Delivery: 8-13 seconds
-    const deliveryTime = 8000 + Math.floor(Math.random() * 5000);
-    setTimeout(() => {
-      io.emit(channel, { ...orderUpdate, status: 'Out for Delivery' });
-      // sendSMSMessage(Meal ${mealItem.name || index} is Out for Delivery);
-    }, deliveryTime);
-
+    io.emit(channel, orderUpdate);
+    // Emit initial order update for this meal item
+    if (index === 0) {
+      process.stdin.resume();
+      process.stdin.setEncoding('utf8');
+      process.stdin.on('data', (data) => {
+        if (data.trim() === 'a') {
+          io.emit(channel, { ...orderUpdate, status: 'Out for Delivery' });
+          sendSMSMessage(`Meal ${mealItem.name || 0} is Out for Delivery`);
+        }
+      });
+    }    else { 
+      // Out for Delivery: 8-13 seconds
+      const deliveryTime = 8000 + Math.floor(Math.random() * 5000);
+      setTimeout(() => {
+        io.emit(channel, { ...orderUpdate, status: 'Out for Delivery' });
+        // sendSMSMessage(Meal ${mealItem.name || index} is Out for Delivery);
+      }, deliveryTime);
+    }
     // Delivered: 14-20 seconds
     const completionTime = 14000 + Math.floor(Math.random() * 6000);
     setTimeout(() => {
@@ -122,11 +132,7 @@ app.post('/api/order', (req, res) => {
       sendSMSMessage(`Meal ${mealItem.name || index} is Delivered`);
     }, completionTime);
   });
+  
 
   res.status(200).json({ code: 'ORDER_SUCCESS', message: 'Order placed successfully' });
 });
-
-
-
-
-
