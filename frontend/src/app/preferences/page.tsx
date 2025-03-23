@@ -183,26 +183,30 @@ export default function UserPreferences() {
           )}
 
           <div className="mb-8">
-            <div className="flex justify-between items-center mb-4">
-              <div className="w-8" />
-              <div className="flex items-center space-x-1">
-                {Array(5).fill(0).map((_, i) => (
-                  <div
-                    key={i}
-                    className={`h-2 w-2 rounded-full transition-all duration-300 ${
-                      i + 1 === step ? 'bg-green-500' : 'bg-gray-200'
-                    }`}
-                  />
-                ))}
+            <div className="flex justify-between items-center mb-4 container mx-auto px-4">
+              <div className="w-24" />
+              <div className="flex items-center space-x-2 flex-grow justify-center">
+                {Array(5)
+                  .fill(0)
+                  .map((_, i) => (
+                    <div
+                      key={i}
+                      className={`h-5 w-5 rounded-full transition-all duration-300 ${
+                        i + 1 === step ? "bg-green-400" : "bg-[#aedab2]"
+                      }`}
+                    />
+                  ))}
               </div>
+
               <button
-                onClick={() => router.push('/')}
-                className="text-blue-500 text-sm"
+                onClick={() => router.push("/")}
+                className="text-black text-lg font-nunito py-2 px-4 rounded-lg hover:bg-[#aedab2] transition-colors duration-300 ease-in-out"
               >
                 Cancel
               </button>
             </div>
           </div>
+
 
           <div className="flex-1 flex flex-col">
             <div className="flex-1 mb-8">{renderStep()}</div>
