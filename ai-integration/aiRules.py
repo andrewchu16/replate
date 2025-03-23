@@ -8,6 +8,7 @@ Your response will be double checked by a secondary AI agent who may provide fee
 4. Choose appropriate restaurant(s) that satisfied the users requests.
 5. Generate a JSON response based on the user prompt and what the user is requesting.
 6. Make sure the response fits within the preferences well and does not violate any of the user's preferences (including allergies and religious restrictions).
+7. If provided, make sure the total budget of the user is not exceeded by the total cost of items returned.
 """
 
 
