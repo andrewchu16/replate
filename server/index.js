@@ -55,17 +55,6 @@ app.post('/api/get-meal-plan', async (req, res) => {
   }
 });
 
-const sendSMSMessage = (message) => {
-  twilio_client.messages
-    .create({
-        from: process.env.TWILIO_TO_NUMBER,
-        to: process.env.TWILIO_RECEIVER_NUMBER,
-        body: message 
-    })
-    .then(msg => console.log(`${msg.sid} sent successfully`));
-}
-
-
 app.post('/api/order', (req, res) => {
   const { mealItems } = req.body;
 
@@ -77,6 +66,9 @@ app.post('/api/order', (req, res) => {
     return res.status(400).json({ code: 'INVALID_REQUEST', message: 'Invalid format for mealitems' });
   }
   console.log('Valid mealItems format:', mealItems);
+
+  // Create a map to track confirmation status for first meal item
+  const orderConfirmations = new Map();
 
   mealItems.forEach((mealItem, index) => {
     /*

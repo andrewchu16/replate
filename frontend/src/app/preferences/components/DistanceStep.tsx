@@ -1,8 +1,17 @@
 "use client";
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import type Preferences from '../../../models/preferences.model';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import dynamic from 'next/dynamic';
+
+// Dynamic import of the map component to avoid SSR issues
+const Map = dynamic(() => import('./Map'), {
+    ssr: false,
+    loading: () => (
+        <div className="w-full h-[300px] rounded-lg shadow-md bg-gray-100 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+        </div>
+    )
+});
 
 interface StepProps {
     preferences: Partial<Preferences>;
@@ -10,13 +19,10 @@ interface StepProps {
 }
 
 export default function DistanceStep({ preferences, updatePreferences }: StepProps) {
-    const mapRef = useRef<L.Map | null>(null);
-    const circleRef = useRef<L.Circle | null>(null);
     const [currentPosition, setCurrentPosition] = useState<[number, number] | null>(null);
 
     useEffect(() => {
-        // Get user's current position
-        if (navigator.geolocation) {
+        if (typeof window !== 'undefined' && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const pos: [number, number] = [position.coords.latitude, position.coords.longitude];
@@ -29,55 +35,7 @@ export default function DistanceStep({ preferences, updatePreferences }: StepPro
                 }
             );
         }
-    }, []);
-
-    useEffect(() => {
-        if (!currentPosition) return;
-
-        // Fix for Leaflet's icon path issues in Next.js
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        delete (L.Icon.Default.prototype as any)._getIconUrl;
-        L.Icon.Default.mergeOptions({
-            iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-        });
-
-        // Initialize map if it doesn't exist
-        if (!mapRef.current) {
-            const map = L.map('map').setView(currentPosition, 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-
-            // Add marker for current position
-            L.marker(currentPosition).addTo(map);
-
-            // Add circle
-            const circle = L.circle(currentPosition, {
-                color: '#22c55e',
-                fillColor: '#22c55e',
-                fillOpacity: 0.2,
-                radius: (preferences.maxDistance || 0.2) * 1000 // Convert km to meters
-            }).addTo(map);
-
-            mapRef.current = map;
-            circleRef.current = circle;
-        }
-
-        // Update circle radius when distance changes
-        if (circleRef.current && preferences.maxDistance) {
-            circleRef.current.setRadius(preferences.maxDistance * 1000);
-        }
-
-        return () => {
-            if (mapRef.current) {
-                mapRef.current.remove();
-                mapRef.current = null;
-                circleRef.current = null;
-            }
-        };
-    }, [currentPosition, preferences.maxDistance]);
+    }, [updatePreferences]);
 
     return (
         <div className="space-y-4 text-center">
@@ -90,10 +48,12 @@ export default function DistanceStep({ preferences, updatePreferences }: StepPro
             </div>
 
             {/* Map Container */}
-            <div 
-                id="map" 
-                className="w-full h-[300px] rounded-lg shadow-md"
-            />
+            {currentPosition && (
+                <Map 
+                    currentPosition={currentPosition}
+                    distance={preferences.maxDistance || 0.2}
+                />
+            )}
 
             <div className="transition-all duration-200 p-4">
                 <label className="block text-xl font-nunito mb-2">
@@ -104,7 +64,7 @@ export default function DistanceStep({ preferences, updatePreferences }: StepPro
                     min="0.2"
                     max="20"
                     step="0.1"
-                    value={preferences.maxDistance}
+                    value={preferences.maxDistance || 0.2}
                     onChange={(e) => updatePreferences('maxDistance', Number(e.target.value))}
                     className="w-full transition-all duration-200 accent-green-500 hover:accent-green-600"
                 />
