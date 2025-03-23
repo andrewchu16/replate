@@ -2,12 +2,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import logoImage from "@/app/assets/images/logo.png"
 import { TbAmpersand } from "react-icons/tb";
-import "./landingPage.css"
+import "./bgPattern.css"
 
 
 export default function Home() {
   return (
-    <div className="landing-page-bg min-h-screen flex flex-col items-center justify-center p-4">
+    <div className="bg-pattern min-h-screen flex flex-col items-center justify-center p-4">
       <div className="max-w-lg h-auto space-y-8 p-8 rounded-lg bg-[#f5fff6] shadow-lg">
         <div className="flex flex-col space-y-8">
           <div className="flex flex-row justify-between items-center">

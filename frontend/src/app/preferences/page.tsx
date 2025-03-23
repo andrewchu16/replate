@@ -8,6 +8,7 @@ import BudgetDistanceStep from "./components/BudgetDistanceStep";
 import StepTransition from "./components/StepTransition";
 import MealDescriptionStep from "./components/MealDescriptionStep";
 import { useRouter } from "next/navigation";
+import "../bgPattern.css"
 
 export default function UserPreferences() {
   const router = useRouter();
@@ -166,7 +167,7 @@ export default function UserPreferences() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="bg-pattern min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Creating your meal plan...</p>
@@ -176,7 +177,7 @@ export default function UserPreferences() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="bg-pattern min-h-screen flex flex-col bg-white">
       <div className="flex-1 flex flex-col p-4">
         <div className="max-w-md w-full mx-auto flex flex-col flex-1">
           {error && (

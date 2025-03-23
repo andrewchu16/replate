@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @layer components {
-    .landing-page-bg {
+    .bg-pattern {
         background-color: #f5fff6;
         opacity: 1;
         background-image:  radial-gradient(#3b944f 1.05px, transparent 1.05px), radial-gradient(#3b944f 1.05px, #f5fff6 1.05px);
