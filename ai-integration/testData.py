@@ -98,7 +98,7 @@ restaurants = [
     "storeName": "Bar Raval",
     "imgUrl": "https://hipfoodiemom.com/wp-content/uploads/2015/11/seafood-paella_horizontal_0967.jpg",
     "distance": 0.4
-  }
+  },
   {
     "name": "Surprise Bag (Pinto Market)",
     "price": 6.99,
