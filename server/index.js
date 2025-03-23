@@ -102,21 +102,25 @@ app.post('/api/order', (req, res) => {
 
     // Emit initial order update for this meal item
     io.emit(channel, orderUpdate);
-
+    const preparingTime = 4000 + Math.floor(Math.random() * 3000);
     setTimeout(() => {
       io.emit(channel, { ...orderUpdate, status: 'Preparing' });
-      // sendSMSMessage(`Meal ${mealItem.name || index} is Preparing`);
-    }, 5000);
+      // sendSMSMessage(Meal ${mealItem.name || index} is Preparing);
+    }, preparingTime);
 
+    // Out for Delivery: 8-13 seconds
+    const deliveryTime = 8000 + Math.floor(Math.random() * 5000);
     setTimeout(() => {
       io.emit(channel, { ...orderUpdate, status: 'Out for Delivery' });
-      // sendSMSMessage(`Meal ${mealItem.name || index} is Out for Delivery`);
-    }, 10000);
+      // sendSMSMessage(Meal ${mealItem.name || index} is Out for Delivery);
+    }, deliveryTime);
 
+    // Delivered: 14-20 seconds
+    const completionTime = 14000 + Math.floor(Math.random() * 6000);
     setTimeout(() => {
       io.emit(channel, { ...orderUpdate, status: 'Delivered' });
-      // sendSMSMessage(`Meal ${mealItem.name || index} is Delivered`);
-    }, 15000);
+      sendSMSMessage(`Meal ${mealItem.name || index} is Delivered`);
+    }, completionTime);
   });
 
   res.status(200).json({ code: 'ORDER_SUCCESS', message: 'Order placed successfully' });
