@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type Preferences from "../../models/preferences.model";
 import DietaryRestrictionsStep from "./components/DietaryRestrictionsStep";
 import AllergiesStep from "./components/AllergiesStep";
@@ -10,6 +10,7 @@ import StepTransition from "./components/StepTransition";
 import MealDescriptionStep from "./components/MealDescriptionStep";
 import { useRouter } from "next/navigation";
 import "../bgPattern.css"
+import loadingMessages from "@/data/loadingMessages";
 
 export default function UserPreferences() {
   const router = useRouter();
@@ -33,6 +34,26 @@ export default function UserPreferences() {
   ) => {
     setPreferences((prev) => ({ ...prev, [key]: value }));
   };
+
+  const [message, setMessage] = useState(loadingMessages[0]);
+
+  useEffect(() => {
+      // Get a random message excluding the current one
+      const getRandomMessage = () => {
+          const availableMessages = loadingMessages.filter(msg => msg !== message);
+          const randomIndex = Math.floor(Math.random() * availableMessages.length);
+          return availableMessages[randomIndex];
+      };
+
+      // Set up the interval to change messages
+      const intervalId = setInterval(() => {
+          setMessage(getRandomMessage());
+      }, 4000);
+
+      // Cleanup interval on component unmount
+      return () => clearInterval(intervalId);
+  }, [message]);
+
 
   const renderStep = () => {
     switch (step) {
@@ -167,7 +188,7 @@ export default function UserPreferences() {
       <div className="bg-pattern min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Creating your meal plan...</p>
+          <p className="text-gray-600">{message}</p>
         </div>
       </div>
     );

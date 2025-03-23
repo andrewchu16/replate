@@ -92,96 +92,39 @@ app.post('/api/order', (req, res) => {
       timestamp: new Date().toISOString()
     };
 
-    // Emit initial order update for this meal item
+    const preparingTime = 4000 + Math.floor(Math.random() * 3000);
+    setTimeout(() => {
+      io.emit(channel, { ...orderUpdate, status: 'Preparing' });
+      // sendSMSMessage(Meal ${mealItem.name || index} is Preparing);
+    }, preparingTime);
+
     io.emit(channel, orderUpdate);
-
+    // Emit initial order update for this meal item
     if (index === 0) {
-      // For the first meal item, set confirmation status to false initially
-      const orderId = Date.now().toString(); // Generate a unique order ID
-      orderConfirmations.set(orderId, false);
-
-      // Send SMS to user asking for confirmation
-      sendSMSMessage(`Your order for ${mealItem.name || 'meal #1'} is ready to be dispatched. Reply with 'A'  to proceed.`);
-      
-      // Emit "Preparing" status after 5 seconds
-      setTimeout(() => {
-        io.emit(channel, { ...orderUpdate, status: 'Preparing' });
-      }, 5000);
-      
-      // Set up Twilio webhook endpoint for SMS confirmation
-      app.post('/api/sms-webhook', (req, res) => {
-        const messageBody = req.body.Body;
-        const fromNumber = req.body.From;
-        
-        // Check if the message is a confirmation for any pending order
-        if (messageBody && messageBody.startsWith('A')) {
-          const parts = messageBody.split(' ');
-          if (parts.length === 2) {
-            const confirmOrderId = parts[1];
-            
-            if (orderConfirmations.has(confirmOrderId)) {
-              // Mark the order as confirmed
-              orderConfirmations.set(confirmOrderId, true);
-              
-              // Send confirmation receipt to the user
-              sendSMSMessage(`Thank you! Your order ${confirmOrderId} is now out for delivery.`, fromNumber);
-              
-              // Emit "Out for Delivery" status
-              io.emit(channel, { ...orderUpdate, status: 'Out for Delivery' });
-              
-              // After 5 more seconds, emit "Delivered"
-              const deliveryTime = 4000 + Math.floor(Math.random() * 3000);
-              setTimeout(() => {
-                io.emit(channel, { ...orderUpdate, status: 'Delivered' });
-              }, deliveryTime);
-            } else {
-              sendSMSMessage('Invalid order ID. Please check and try again.', fromNumber);
-            }
-          }
+      process.stdin.resume();
+      process.stdin.setEncoding('utf8');
+      process.stdin.on('data', (data) => {
+        if (data.trim() === 'a') {
+          io.emit(channel, { ...orderUpdate, status: 'Out for Delivery' });
+          sendSMSMessage(`Meal ${mealItem.name || 0} is Out for Delivery`);
         }
-        
-        // Send a TwiML response to acknowledge the SMS
-        const twiml = new twilio.twiml.MessagingResponse();
-        res.writeHead(200, {'Content-Type': 'text/xml'});
-        res.end(twiml.toString());
       });
-    } else {
-      const preparingTime = 6 + Math.floor(Math.random() * 3000);
-      setTimeout(() => {
-        io.emit(channel, { ...orderUpdate, status: 'Preparing' });
-        // sendSMSMessage(`Meal ${mealItem.name || index} is Preparing`);
-      }, preparingTime);
-  
-      // Out for Delivery: 8-13 seconds
-      const deliveryTime = 8000 + Math.floor(Math.random() * 5000);
+    }    else { 
+      // Out for Delivery: 11-15 seconds
+      const deliveryTime = 11000 + Math.floor(Math.random() * 5000);
       setTimeout(() => {
         io.emit(channel, { ...orderUpdate, status: 'Out for Delivery' });
-        // sendSMSMessage(`Meal ${mealItem.name || index} is Out for Delivery`);
+        // sendSMSMessage(Meal ${mealItem.name || index} is Out for Delivery);
       }, deliveryTime);
-  
-      // Delivered: 14-20 seconds
-      const completionTime = 14000 + Math.floor(Math.random() * 6000);
-      setTimeout(() => {
-        io.emit(channel, { ...orderUpdate, status: 'Delivered' });
-        sendSMSMessage(`Meal ${mealItem.name || index} is Delivered`);
-      }, completionTime);
     }
+    // Delivered: 20-26 seconds
+    const completionTime = 20000 + Math.floor(Math.random() * 6000);
+    setTimeout(() => {
+      io.emit(channel, { ...orderUpdate, status: 'Delivered' });
+      sendSMSMessage(`Meal ${mealItem.name || index} is Delivered`);
+    }, completionTime);
   });
+  
 
   res.status(200).json({ code: 'ORDER_SUCCESS', message: 'Order placed successfully' });
 });
-
-
-function sendSMSMessage(message, toNumber) {
-  // This function would use the Twilio client to send messages
-  // Example implementation (assuming twilio client is configured elsewhere):
-  
-  twilio_client.messages.create({
-    body: message,
-    from: process.env.TWILIO_TO_NUMBER,
-    to: toNumber || process.env.TWILIO_RECEIVER_NUMBER // Default to user's registered number if not specified
-  })
-  .then(message => console.log(`SMS sent with SID: ${message.sid}`))
-  .catch(err => console.error('Error sending SMS:', err));
-  console.log(`SMS would be sent: ${message} to ${toNumber || 'user'}`);
-}
