@@ -33,7 +33,6 @@ def generateMeal(userPrompt: str, cohereFeedback: str, restaurantStr: str, prefe
             config=types.GenerateContentConfig(
                 response_mime_type='application/json',
                 response_schema=list[restaurantSchema],
-
             )
         )
         return response.text
