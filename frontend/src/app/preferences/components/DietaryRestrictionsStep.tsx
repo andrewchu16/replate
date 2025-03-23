@@ -11,6 +11,7 @@ export default function DietaryRestrictionsStep({ preferences, updatePreferences
     const [otherValue, setOtherValue] = useState('');
     const [showOtherInput, setShowOtherInput] = useState(false);
     const dietaryOptions = [
+        { id: 'none', icon: '❌', label: 'NONE' },
         { id: 'vegetarian', icon: '🥗', label: 'VEGETARIAN' },
         { id: 'vegan', icon: '🌱', label: 'VEGAN' },
         { id: 'gluten-free', icon: '🌾', label: 'GLUTEN-FREE' },
@@ -87,10 +88,15 @@ export default function DietaryRestrictionsStep({ preferences, updatePreferences
                                 key={option.id}
                                 onClick={() => {
                                     const current = preferences.dietaryRestrictions || [];
-                                    const updated = current.includes(option.id)
-                                        ? current.filter(d => d !== option.id)
-                                        : [...current, option.id];
-                                    updatePreferences('dietaryRestrictions', updated);
+                                    if (option.id === 'none') {
+                                        updatePreferences('dietaryRestrictions', ['none']);
+                                    } else {
+                                        const withoutNone = current.filter(d => d !== 'none');
+                                        const updated = withoutNone.includes(option.id)
+                                            ? withoutNone.filter(d => d !== option.id)
+                                            : [...withoutNone, option.id];
+                                        updatePreferences('dietaryRestrictions', updated);
+                                    }
                                 }}
                                 className={`flex flex-col items-center p-3 rounded-lg transition-all duration-200
                                     ${preferences.dietaryRestrictions?.includes(option.id)
