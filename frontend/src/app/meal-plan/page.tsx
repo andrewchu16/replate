@@ -21,7 +21,7 @@ export default function MealPlan() {
             } else {
                 setError('No meal plan found. Please create one from the preferences page.');
             }
-        } catch (err) {
+        } catch {
             setError('Failed to load meal plan. Please try again.');
         }
     }, []);
@@ -64,7 +64,7 @@ export default function MealPlan() {
 
             localStorage.setItem('orderedMealPlan', JSON.stringify(mealPlan));
             router.push('/delivery-status');
-        } catch (error) {
+        } catch {
             setError('Failed to place order. Please try again.');
         }
     };
