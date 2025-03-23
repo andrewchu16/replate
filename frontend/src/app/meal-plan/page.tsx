@@ -48,9 +48,25 @@ export default function MealPlan() {
         );
     }
 
-    const handleOrder = () => {
-        localStorage.setItem('orderedMealPlan', JSON.stringify(mealPlan));
-        router.push('/delivery-status');
+    const handleOrder = async () => {
+        try {
+            const response = await fetch('/api/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ meals: mealPlan }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to place order');
+            }
+
+            localStorage.setItem('orderedMealPlan', JSON.stringify(mealPlan));
+            router.push('/delivery-status');
+        } catch (error) {
+            setError('Failed to place order. Please try again.');
+        }
     };
 
     return (

@@ -11,12 +11,21 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
+const cors = require('cors');
+app.use(cors());
+
 const server = app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
 
-// Initialize Socket.IO
-const io = socketIO(server);
+// Initialize Socket.IO with CORS configuration
+const io = socketIO(server, {
+  cors: {
+    origin: "http://localhost:3001", // Your Next.js frontend URL
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
 io.on('connection', (socket) => {
   console.log('Client connected');
   
@@ -60,11 +69,14 @@ const sendSMSMessage = (message) => {
 app.post('/api/order', (req, res) => {
   const { mealItems } = req.body;
 
-  console.log(mealItems);
+  console.log("mealItems");
 
+  console.log('Received mealItems:', mealItems);
   if (!mealItems || !Array.isArray(mealItems)) {
+    console.error('Invalid format for mealItems:', mealItems);
     return res.status(400).json({ code: 'INVALID_REQUEST', message: 'Invalid format for mealitems' });
   }
+  console.log('Valid mealItems format:', mealItems);
 
   mealItems.forEach((mealItem, index) => {
     /*
