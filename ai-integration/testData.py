@@ -228,5 +228,85 @@ restaurants = [
     "storeName": "Madras Curry",
     "imgUrl": "https://img.taste.com.au/qPAElV3h/taste/2013/07/easy-butter-chicken-image1-197844-1.jpg",
     "distance": 1.6
+  },
+  {
+    "name": "Bibimbap",
+    "price": 13.99,
+    "longitude": -79.395,
+    "latitude": 43.664,
+    "rating": 4.7,
+    "storeName": "Korean Grill House",
+    "imgUrl": "https://www.siftandsimmer.com/wp-content/uploads/2023/05/bibimbap-featured.jpg",
+    "distance": 0.5
+  },
+  {
+    "name": "Pho",
+    "price": 11.99,
+    "longitude": -79.396,
+    "latitude": 43.665,
+    "rating": 4.6,
+    "storeName": "Pho Hung",
+    "imgUrl": "https://www.marionskitchen.com/wp-content/uploads/2020/02/Classic-Vietnamese-Beef-Pho4-1200x900.jpg",
+    "distance": 0.6
+  },
+  {
+    "name": "Chicken Tikka Masala",
+    "price": 14.99,
+    "longitude": -79.398, 
+    "latitude": 43.667,
+    "rating": 4.8,
+    "storeName": "Kitchen of Little India",
+    "imgUrl": "https://www.allrecipes.com/thmb/XXsVMfmHVEobRnGM_H3eW0CeTGo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/239867chef-johns-chicken-tikka-masala-ddmfs-1X2-0574-391ed2368a4b4241808835f1869b138d.jpg",
+    "distance": 0.8
+  },
+  {
+    "name": "Sushi Platter",
+    "price": 15.99,
+    "longitude": -79.399,
+    "latitude": 43.668,
+    "rating": 4.9,
+    "storeName": "Sushi Kaji",
+    "imgUrl": "https://cdn.veggies.de/wp-content/uploads/2020/02/01163405/Sushi_Inside_Out-7_2550_vegan_veggies.jpg",
+    "distance": 0.9
+  },
+  {
+    "name": "Dim Sum",
+    "price": 18.99,
+    "longitude": -79.400,
+    "latitude": 43.669,
+    "rating": 4.7,
+    "storeName": "Dim Sum King",
+    "imgUrl": "https://asiasociety.org/sites/default/files/styles/1200w/public/1/170329_dimsummain.jpg",
+    "distance": 1.0
+  },
+  {
+    "name": "Peking Duck",
+    "price": 29.99,
+    "longitude": -79.402,
+    "latitude": 43.671,
+    "rating": 4.8,
+    "storeName": "Peking Duck House",
+    "imgUrl": "https://anislandchef.com/wp-content/uploads/2022/02/Roast-Cantonese-Duck-2022.jpg",
+    "distance": 1.2
+  },
+  {
+    "name": "Shakshuka",
+    "price": 12.99,
+    "longitude": -79.404,
+    "latitude": 43.673,
+    "rating": 4.6,
+    "storeName": "Cafe Landwer",
+    "imgUrl": "https://cookieandkate.com/images/2019/02/best-shakshuka-recipe-3.jpg",
+    "distance": 1.4
+  },
+  {
+    "name": "Empanadas",
+    "price": 8.99,
+    "longitude": -79.405,
+    "latitude": 43.674,
+    "rating": 4.5,
+    "storeName": "El Almacen",
+    "imgUrl": "https://thetwobananas.com/wp-content/uploads/2022/09/empanadas08.jpg",
+    "distance": 1.5
   }
 ]
